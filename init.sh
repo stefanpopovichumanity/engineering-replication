@@ -14,13 +14,18 @@ while ! mysqladmin ping -uroot -pL0c@lhost --host $DB_HOST --port $SLAVE_PORT --
   sleep 1
 done
 
+# Remove inserts to entity_integrations since generated_salesforce_id causes problems
+awk '!/INSERT INTO `entity_integrations` VALUES/' dump.db > temp.db && mv temp.db dump.db
+
 echo "Importing database into master..."
 mysql -uroot -pL0c@lhost --host $DB_HOST --port $MASTER_PORT < dump.db
 
 mysql -uroot -pL0c@lhost --host $DB_HOST --port $MASTER_PORT -e "FLUSH TABLES WITH READ LOCK;"
 
 echo "Dumping master database..."
-mysqldump -uroot -pL0c@lhost --host $DB_HOST --port $MASTER_PORT --column-statistics=0 --master-data --databases shiftcom_2010_new availability event_log employee_assignment_log > masterdump.db
+# Use column statistics flag on newer db versions
+#mysqldump -uroot -pL0c@lhost --host $DB_HOST --port $MASTER_PORT --column-statistics=0 --master-data --databases shiftcom_2010_new availability event_log employee_assignment_log > masterdump.db
+mysqldump -uroot -pL0c@lhost --host $DB_HOST --port $MASTER_PORT --master-data --databases shiftcom_2010_new availability event_log employee_assignment_log > masterdump.db
 
 echo "Importing master database into slave..."
 mysql -uroot -pL0c@lhost --host $DB_HOST --port $SLAVE_PORT < masterdump.db
