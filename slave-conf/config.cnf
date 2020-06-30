@@ -1,0 +1,4 @@
+[mysqld]
+datadir=/var/lib/mysql/
+server-id=2
+sql-mode="NO_ENGINE_SUBSTITUTION"

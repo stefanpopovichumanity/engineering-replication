@@ -1,0 +1,6 @@
+[mysqld]
+datadir=/var/lib/mysql/
+server-id=1
+log_bin=/var/lib/mysql/mysql-bin
+binlog_do_db=shiftcom_2010_new
+sql-mode="NO_ENGINE_SUBSTITUTION"

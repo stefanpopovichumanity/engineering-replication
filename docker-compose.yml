@@ -1,0 +1,37 @@
+version: '3.3'
+
+services:
+  master:
+    container_name: "mysql-master"
+    image: percona:5.7
+    restart: "no"
+    environment:
+      MYSQL_ROOT_PASSWORD: 'L0c@lhost'
+      MYSQL_PASSWORD: 'L0c@lhost'
+    ports:
+      - '33167:3306'
+    expose:
+      - '3306'
+    volumes:
+      - master-db:/var/lib/mysql
+      - ./master-conf:/etc/my.cnf.d
+
+  slave:
+    container_name: "mysql-slave"
+    image: percona:5.7
+    restart: "no"
+    environment:
+      MYSQL_ROOT_PASSWORD: 'L0c@lhost'
+      MYSQL_PASSWORD: 'L0c@lhost'
+    ports:
+      - '33166:3306'
+    expose:
+      - '3306'
+    volumes:
+      - slave-db:/var/lib/mysql
+      - ./slave-conf:/etc/my.cnf.d
+    depends_on:
+      - master
+volumes:
+  master-db:
+  slave-db:
