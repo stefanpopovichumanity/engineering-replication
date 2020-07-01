@@ -4,7 +4,7 @@ set +a
 
 if [ ! -f "./dump.db" ]; then
     echo "dump.db file not found"
-    echo "Use: mysqldump -uroot -pL0c@lhost --port 3307 --host 10.11.12.13 --databases shiftcom_2010_new availability event_log employee_assignment_log > dump.db"
+    echo "Run the create_dump.sh script first"
     exit 1
 fi
 
