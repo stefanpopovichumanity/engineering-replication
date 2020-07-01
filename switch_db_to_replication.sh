@@ -1,3 +1,7 @@
+set -a
+. ./env.txt
+set +a
+
 env_path="../codeP71/_C/.env"
 vagrant_env_path="../codeP71/_C/dot.env_vagrant"
 rbs_conf_path="../rbsConf/rbs.conf"
@@ -30,20 +34,20 @@ curl 10.11.12.13:7999/stop/RBSWRK_JAVA_0005_java8wrk-sq
 curl 10.11.12.13:7999/start/RBSWRK_JAVA_0005_java8wrk-sq
 
 # Modify .env
-sed -i '/MYSQL_SHIFTCOM_MASTER_PORT = 3307/c\MYSQL_SHIFTCOM_MASTER_PORT = 33167' $env_path
-sed -i '/MYSQL_SHIFTCOM_MASTER_USER = shift_u_rw/c\MYSQL_SHIFTCOM_MASTER_USER = root' $env_path
+sed -E -i "/^MYSQL_SHIFTCOM_MASTER_PORT = .+\$/c\MYSQL_SHIFTCOM_MASTER_PORT = $MASTER_PORT" $env_path
+sed -E -i "/^MYSQL_SHIFTCOM_MASTER_USER = .+\$/c\MYSQL_SHIFTCOM_MASTER_USER = root" $env_path
 
-sed -i '/MYSQL_SHIFTCOM_SLAVE_PORT = 3307/c\MYSQL_SHIFTCOM_SLAVE_PORT = 33166' $env_path
-sed -i '/MYSQL_SHIFTCOM_SLAVE_USER = shift_u_r/c\MYSQL_SHIFTCOM_SLAVE_USER = root' $env_path
+sed -E -i "/^MYSQL_SHIFTCOM_SLAVE_PORT = .+\$/c\MYSQL_SHIFTCOM_SLAVE_PORT = $SLAVE_PORT" $env_path
+sed -E -i "/^MYSQL_SHIFTCOM_SLAVE_USER = .+\$/c\MYSQL_SHIFTCOM_SLAVE_USER = root" $env_path
 
-sed -i '/MYSQL_CRON_MASTER_PORT = 3307/c\MYSQL_CRON_MASTER_PORT = 33167' $env_path
-sed -i '/MYSQL_CRON_MASTER_USER = shift_u_rw/c\MYSQL_CRON_MASTER_USER = root' $env_path
+sed -E -i "/^MYSQL_CRON_MASTER_PORT = .+\$/c\MYSQL_CRON_MASTER_PORT = $MASTER_PORT" $env_path
+sed -E -i "/^MYSQL_CRON_MASTER_USER = .+\$/c\MYSQL_CRON_MASTER_USER = root" $env_path
 
-sed -i '/MYSQL_CRON_SLAVE_PORT = 3307/c\MYSQL_CRON_SLAVE_PORT = 33166' $env_path
-sed -i '/MYSQL_CRON_SLAVE_USER = shift_u_r/c\MYSQL_CRON_SLAVE_USER = root' $env_path
+sed -E -i "/^MYSQL_CRON_SLAVE_PORT = .+\$/c\MYSQL_CRON_SLAVE_PORT = $SLAVE_PORT" $env_path
+sed -E -i "/^MYSQL_CRON_SLAVE_USER = .+\$/c\MYSQL_CRON_SLAVE_USER = root" $env_path
 
 # Modify rbs.conf
-sed -i '/db\.default\.url=\"jdbc:mysql:\/\/127\.0\.0\.1:3306\/shiftcom_2010_new\"/c\db.default.url="jdbc:mysql://127.0.0.1:33166/shiftcom_2010_new"' $rbs_conf_path
-sed -i '/db\.default\.username=shift_u_r/c\db.default.username=root' $rbs_conf_path
+sed -i "/^db\.default\.url=\"jdbc:mysql:\/\/127\.0\.0\.1:3306\/shiftcom_2010_new\"/c\db.default.url=\"jdbc:mysql://127.0.0.1:$SLAVE_PORT/shiftcom_2010_new\"" $rbs_conf_path
+sed -i "/^db\.default\.username=shift_u_r/c\db.default.username=root" $rbs_conf_path
 
 echo "Done"
