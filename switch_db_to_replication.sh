@@ -1,9 +1,10 @@
-switch_to_vagrant_path="../switch_db_to_vagrant.sh"
 env_path="../codeP71/_C/.env"
+vagrant_env_path="../codeP71/_C/dot.env_vagrant"
 rbs_conf_path="../rbsConf/rbs.conf"
+vagrant_rbs_conf_path="../rbsConf/rbs.conf_vagrant"
 
-if [ ! -f $switch_to_vagrant_path ]; then
-    echo "switch_db_to_vagrant script not found"
+if [ ! -f $vagrant_env_path ]; then
+    echo "dot.env_vagrant file not found"
     exit 1
 fi
 
@@ -12,12 +13,21 @@ if [ ! -f $env_path ]; then
     exit 1
 fi
 
+if [ ! -f $vagrant_rbs_conf_path ]; then
+    echo "rbs.conf_vagrant file not found"
+    exit 1
+fi
+
 if [ ! -f $rbs_conf_path ]; then
     echo "rbs.conf file not found"
     exit 1
 fi
 
-/bin/bash $switch_to_vagrant_path
+# Same as switch_to_vagrant script
+cp $vagrant_env_path $env_path
+cp $vagrant_rbs_conf_path $rbs_conf_path
+curl 10.11.12.13:7999/stop/RBSWRK_JAVA_0005_java8wrk-sq
+curl 10.11.12.13:7999/start/RBSWRK_JAVA_0005_java8wrk-sq
 
 # Modify .env
 sed -i '/MYSQL_SHIFTCOM_MASTER_PORT = 3307/c\MYSQL_SHIFTCOM_MASTER_PORT = 33167' $env_path
