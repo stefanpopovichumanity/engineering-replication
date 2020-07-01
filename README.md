@@ -1,7 +1,7 @@
 ## Steps:
 
 1. Go into sp-vagrant/vagrant and clone this repo - ```git clone https://github.com/stefanpopovichumanity/engineering-replication```
-2. ssh into vagrant and ```cd /vagrant``` (run all commands below inside vagrant)
+2. ssh into vagrant and ```cd /vagrant/engineering-replication``` (run all commands below inside vagrant)
 3. Create dump.db by using ```bash create_dump.sh```
 4. Run the databases ```bash init.sh```
 5. Change .env to use the new databases ```bash switch_db_to_replication.sh```
