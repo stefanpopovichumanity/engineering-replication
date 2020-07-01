@@ -21,8 +21,8 @@ Replication delay should be removed automatically when the slave database is res
 
 ## Stopping the databases:
 
-```bash stop.sh```
+```bash stop.sh``` - this also changes the database back to vagrant
 
 ## Notes:
 
-- init.sh needs to be started manually every time vagrant is started
+- init.sh needs to be started manually every time vagrant is started (along with switch_db_to_replication.sh)
