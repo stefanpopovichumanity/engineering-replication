@@ -2,17 +2,17 @@ switch_to_vagrant_path="../switch_db_to_vagrant.sh"
 env_path="../codeP71/_C/.env"
 rbs_conf_path="../rbsConf/rbs.conf"
 
-if [ ! -f switch_to_vagrant_path ]; then
+if [ ! -f $switch_to_vagrant_path ]; then
     echo "switch_db_to_vagrant script not found"
     exit 1
 fi
 
-if [ ! -f env_path ]; then
+if [ ! -f $env_path ]; then
     echo ".env file not found"
     exit 1
 fi
 
-if [ ! -f rbs_conf_path ]; then
+if [ ! -f $rbs_conf_path ]; then
     echo "rbs.conf file not found"
     exit 1
 fi
